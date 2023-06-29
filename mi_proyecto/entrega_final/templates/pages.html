@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Páginas</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+  <h1>Páginas</h1>
+  <ul>
+    {% for page in pages %}
+    <li>
+      <h2>{{ page.title }}</h2>
+      <p>{{ page.subtitle }}</p>
+      <p>Autor: {{ page.author }}</p>
+      <a href="/pages/{{ page.id }}">Leer más</a>
+    </li>
+    {% empty %}
+    <li>No hay páginas disponibles.</li>
+    {% endfor %}
+  </ul>
+</body>
+
+</html>

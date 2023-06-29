@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Mensajes</title>
+</head>
+
+<body>
+  <h1>Mensajes</h1>
+
+  <h2>Mensajes recibidos:</h2>
+  {% for message in received_messages %}
+  <p>De: {{ message.sender.username }}</p>
+  <p>Asunto: {{ message.subject }}</p>
+  <p>{{ message.content }}</p>
+  <hr>
+  {% empty %}
+  <p>No hay mensajes recibidos.</p>
+  {% endfor %}
+
+  <h2>Mensajes enviados:</h2>
+  {% for message in sent_messages %}
+  <p>Para: {{ message.receiver.username }}</p>
+  <p>Asunto: {{ message.subject }}</p>
+  <p>{{ message.content }}</p>
+  <hr>
+  {% empty %}
+  <p>No hay mensajes enviados.</p>
+  {% endfor %}
+
+  <h2>Enviar mensaje:</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Enviar">
+  </form>
+</body>
+
+</html>

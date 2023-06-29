@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Lista de blogs</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+  <h1>Lista de blogs</h1>
+  <ul>
+    {% for blog in blogs %}
+    <li><a href="/pages/{{ blog.id }}">{{ blog.title }}</a></li>
+    {% empty %}
+    <li>No hay blogs disponibles.</li>
+    {% endfor %}
+  </ul>
+</body>
+
+</html>
