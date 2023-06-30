@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login 
-from .models import User, Login, Message
+from .models import User, Login, Message, Photo
 from .forms import MessageForm
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required, user_passes_test
-
+from django.http import HttpResponse
 
 def signup(request):
     if request.method == 'POST':
@@ -34,13 +34,6 @@ def login_view(request):
     else:
         return render(request, 'login.html')
 
-def messages(request):
-    # Lógica para manejar la app de mensajería
-    return render(request, 'messages.html')
-
-def about(request):
-    about_info = About.objects.all()
-    return render(request, 'about.html', {'about_info': about_info})
 
 @login_required
 @user_passes_test(lambda user: user.is_superuser, login_url='login')
@@ -71,6 +64,10 @@ def delete_photo(request, photo_id):
         return redirect('photos')  # Redirigir a la página de fotos
     return render(request, 'delete_photo.html', {'photo': photo})
 
+def index(request):
+    return render(request, 'index.html')
+
+@login_required
 def messages(request):
     if request.method == 'POST':
         form = MessageForm(request.POST)
@@ -92,5 +89,5 @@ def messages(request):
     }
     return render(request, 'messages.html', context)
 
-def index(request):
-    return render(request, 'index.html')
+
+

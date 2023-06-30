@@ -1,40 +1,35 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
+<h1>Messages</h1>
 
-<head>
-  <title>Mensajes</title>
-</head>
-
-<body>
-  <h1>Mensajes</h1>
-
-  <h2>Mensajes recibidos:</h2>
-  {% for message in received_messages %}
-  <p>De: {{ message.sender.username }}</p>
-  <p>Asunto: {{ message.subject }}</p>
-  <p>{{ message.content }}</p>
+<!-- Mostrar mensajes recibidos -->
+<h2>Received Messages</h2>
+{% for message in received_messages %}
+<div>
+  <strong>From:</strong> {{ message.sender.username }}<br>
+  <strong>Subject:</strong> {{ message.subject }}<br>
+  <strong>Content:</strong> {{ message.content }}<br>
   <hr>
-  {% empty %}
-  <p>No hay mensajes recibidos.</p>
-  {% endfor %}
+</div>
+{% empty %}
+<p>No received messages.</p>
+{% endfor %}
 
-  <h2>Mensajes enviados:</h2>
-  {% for message in sent_messages %}
-  <p>Para: {{ message.receiver.username }}</p>
-  <p>Asunto: {{ message.subject }}</p>
-  <p>{{ message.content }}</p>
+<!-- Mostrar mensajes enviados -->
+<h2>Sent Messages</h2>
+{% for message in sent_messages %}
+<div>
+  <strong>To:</strong> {{ message.receiver.username }}<br>
+  <strong>Subject:</strong> {{ message.subject }}<br>
+  <strong>Content:</strong> {{ message.content }}<br>
   <hr>
-  {% empty %}
-  <p>No hay mensajes enviados.</p>
-  {% endfor %}
+</div>
+{% empty %}
+<p>No sent messages.</p>
+{% endfor %}
 
-  <h2>Enviar mensaje:</h2>
-  <form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Enviar">
-  </form>
-</body>
-
-</html>
+<!-- Formulario para enviar mensajes -->
+<h2>Send a Message</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Send</button>
+</form>
