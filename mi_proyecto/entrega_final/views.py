@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from .models import User, Login, Message
 from .forms import MessageForm
 from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 def signup(request):
@@ -33,10 +34,6 @@ def login_view(request):
     else:
         return render(request, 'login.html')
 
-def admin(request):
-    # Lógica para manejar las apps y los datos en las apps del administrador
-    return render(request, 'admin.html')
-
 def messages(request):
     # Lógica para manejar la app de mensajería
     return render(request, 'messages.html')
@@ -45,6 +42,8 @@ def about(request):
     about_info = About.objects.all()
     return render(request, 'about.html', {'about_info': about_info})
 
+@login_required
+@user_passes_test(lambda user: user.is_superuser, login_url='login')
 def create_photo(request):
     if request.method == 'POST':
         # Procesar los datos enviados en el formulario de creación de fotos
@@ -52,6 +51,8 @@ def create_photo(request):
         return redirect('photos')  # Redirigir a la página de fotos
     return render(request, 'create_photo.html')
 
+@login_required
+@user_passes_test(lambda user: user.is_superuser, login_url='login')
 def edit_photo(request, photo_id):
     photo = Photo.objects.get(id=photo_id)
     if request.method == 'POST':
@@ -60,6 +61,8 @@ def edit_photo(request, photo_id):
         return redirect('photos')  # Redirigir a la página de fotos
     return render(request, 'edit_photo.html', {'photo': photo})
 
+@login_required
+@user_passes_test(lambda user: user.is_superuser, login_url='login')
 def delete_photo(request, photo_id):
     photo = Photo.objects.get(id=photo_id)
     # Verificar si el usuario tiene permiso para eliminar la foto

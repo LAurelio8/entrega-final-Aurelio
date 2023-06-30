@@ -39,3 +39,14 @@ class Message(models.Model):
     subject = models.CharField(max_length=200)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+
+class Photo(models.Model):
+    image = models.ImageField(upload_to='photos/')
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+class Text(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
