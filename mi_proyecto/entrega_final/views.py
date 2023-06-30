@@ -20,15 +20,18 @@ def signup(request):
     
     return render(request, 'signup.html')
 
-def login_view(request):  
+def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            auth_login(request, user)  
-            return redirect('home')
-    return render(request, 'login.html')
+        if username == 'usuario' and password == 'contraseña':
+            # Datos de inicio de sesión correctos
+            return render(request, 'login.html', {'login_successful': True})
+        else:
+            # Datos de inicio de sesión incorrectos
+            return render(request, 'login.html', {'login_successful': False})
+    else:
+        return render(request, 'login.html')
 
 def admin(request):
     # Lógica para manejar las apps y los datos en las apps del administrador
