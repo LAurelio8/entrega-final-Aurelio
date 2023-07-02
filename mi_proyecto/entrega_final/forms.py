@@ -6,3 +6,8 @@ class MessageForm(forms.ModelForm):
         model = Message
         fields = ['receiver', 'subject', 'content']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['receiver'].label = 'Destinatario'
+        self.fields['subject'].label = 'Asunto'
+        self.fields['content'].label = 'Contenido del mensaje'

@@ -5,6 +5,8 @@ from .forms import MessageForm
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
+from django.contrib.auth import get_user_model
+
 
 def signup(request):
     if request.method == 'POST':
@@ -67,7 +69,12 @@ def delete_photo(request, photo_id):
 def index(request):
     return render(request, 'index.html')
 
-@login_required
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from .forms import MessageForm
+from .models import Message
+
+@login_required(login_url='login')
 def messages(request):
     if request.method == 'POST':
         form = MessageForm(request.POST)
@@ -78,16 +85,18 @@ def messages(request):
             return redirect('messages')
     else:
         form = MessageForm()
-    
-    received_messages = Message.objects.filter(receiver=request.user)
-    sent_messages = Message.objects.filter(sender=request.user)
-    
+
+    received_messages = Message.objects.filter(receiver=request.user.pk)
+    sent_messages = Message.objects.filter(sender=request.user.pk)
+
     context = {
         'form': form,
         'received_messages': received_messages,
-        'sent_messages': sent_messages
+        'sent_messages': sent_messages,
+        'user': request.user
     }
     return render(request, 'messages.html', context)
+
 
 
 

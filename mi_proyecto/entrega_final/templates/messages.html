@@ -1,35 +1,49 @@
-<h1>Messages</h1>
+{% load static %}
 
-<!-- Mostrar mensajes recibidos -->
-<h2>Received Messages</h2>
-{% for message in received_messages %}
-<div>
-  <strong>From:</strong> {{ message.sender.username }}<br>
-  <strong>Subject:</strong> {{ message.subject }}<br>
-  <strong>Content:</strong> {{ message.content }}<br>
-  <hr>
-</div>
-{% empty %}
-<p>No received messages.</p>
-{% endfor %}
+<!DOCTYPE html>
+<html>
 
-<!-- Mostrar mensajes enviados -->
-<h2>Sent Messages</h2>
-{% for message in sent_messages %}
-<div>
-  <strong>To:</strong> {{ message.receiver.username }}<br>
-  <strong>Subject:</strong> {{ message.subject }}<br>
-  <strong>Content:</strong> {{ message.content }}<br>
-  <hr>
-</div>
-{% empty %}
-<p>No sent messages.</p>
-{% endfor %}
+<head>
+  <title>Mensajes</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
 
-<!-- Formulario para enviar mensajes -->
-<h2>Send a Message</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Send</button>
-</form>
+<body>
+  <h1>Mensajes</h1>
+
+  <!-- Mostrar mensajes recibidos -->
+  <h2>Mensajes Recibidos</h2>
+  {% for message in received_messages %}
+  <div>
+    <strong>From:</strong> {{ message.sender.username }}<br>
+    <strong>Subject:</strong> {{ message.subject }}<br>
+    <strong>Content:</strong> {{ message.content }}<br>
+    <hr>
+  </div>
+  {% empty %}
+  <p class="no-messages">No recibiste mensajes.</p>
+  {% endfor %}
+
+  <!-- Mostrar mensajes enviados -->
+  <h2>Mensajes Enviados</h2>
+  {% for message in sent_messages %}
+  <div>
+    <strong>Para:</strong> {{ message.receiver.username }}<br>
+    <strong>Titulo:</strong> {{ message.subject }}<br>
+    <strong>Contenido:</strong> {{ message.content }}<br>
+    <hr>
+  </div>
+  {% empty %}
+  <p class="no-messages">No enviaste mensajes.</p>
+  {% endfor %}
+
+  <!-- Formulario para enviar mensajes -->
+  <h2>Enviá un mensaje</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar</button>
+  </form>
+</body>
+
+</html>
