@@ -35,7 +35,8 @@
         <ul class="navbar-nav ms-auto">
           <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded"
               href="#portfolio">Portfolio</a></li>
-          <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">About</a>
+          <li class="nav-item mx-0 mx-lg-1">
+            <a class="nav-link py-3 px-0 px-lg-3 rounded" href="{% url 'about' %}">About</a>
           </li>
           <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Contact</a>
           </li>
@@ -129,60 +130,6 @@
         </div>
       </div>
     </div>
-  </section>
-  <!-- About Section-->
-  <section class="page-section bg-primary text-white mb-0" id="about">
-    <div class="container">
-      <!-- About Section Heading-->
-      <h2 class="page-section-heading text-center text-uppercase text-white">About</h2>
-      <!-- Icon Divider-->
-      <div class="divider-custom divider-light">
-        <div class="divider-custom-line"></div>
-        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-        <div class="divider-custom-line"></div>
-      </div>
-      <!-- About Section Content-->
-      <div class="row">
-        <div class="col-lg-4 ms-auto">
-          <p class="lead">Bienvenido a mi sitio web. Soy el creador de esta página y estoy emocionado de
-            compartir mi
-            proyecto contigo.</p>
-        </div>
-        <div class="col-lg-4 me-auto">
-          <p class="lead"> Agradezco tu visita y espero que disfrutes de este espacio. ¡Gracias por ser parte de esta
-            comunidad!
-
-          </p>
-        </div>
-      </div>
-      <!-- About Section Button-->
-      <div class="text-center mt-4">
-        <button id="toggle-button" class="btn btn-xl btn-outline-light" onclick="toggleText()">
-          <i class="fas fa-download me-2"></i>
-          Leer más
-        </button>
-      </div>
-      <div id="additional-text" style="display: none; text-align: center;">
-        <!-- Aquí coloca el texto adicional que se mostrará al hacer clic -->
-        <p>Gracias por usar nuestro botón de "Leer más".</p>
-      </div>
-
-      <script>
-        function toggleText() {
-          var additionalText = document.getElementById("additional-text");
-          var toggleButton = document.getElementById("toggle-button");
-
-          if (additionalText.style.display === "none") {
-            additionalText.style.display = "block";
-            toggleButton.style.display = "none";
-          } else {
-            additionalText.style.display = "none";
-            toggleButton.style.display = "block";
-          }
-        }
-      </script>
-
-
   </section>
   <!-- Contact Section-->
   <section class="page-section" id="contact">

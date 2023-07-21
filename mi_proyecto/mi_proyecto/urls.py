@@ -8,4 +8,5 @@ urlpatterns = [
     path('messages/', views.messages),
     path('index/', views.index),
     path('admin/', admin.site.urls),
+    path('about/', views.about, name='about'),
 ]

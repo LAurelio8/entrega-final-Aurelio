@@ -97,6 +97,8 @@ def messages(request):
     }
     return render(request, 'messages.html', context)
 
+def about(request):
+    return render(request, 'about.html')
 
 
 
