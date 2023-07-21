@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login as auth_login 
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from .models import User, Login, Message, Photo
 from .forms import MessageForm
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
-
+from .models import VerMas
 
 def signup(request):
     if request.method == 'POST':
@@ -27,15 +27,14 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        if username == 'usuario' and password == 'contraseña':
-            # Datos de inicio de sesión correctos
-            return render(request, 'login.html', {'login_successful': True})
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            return redirect('messages')
         else:
-            # Datos de inicio de sesión incorrectos
             return render(request, 'login.html', {'login_successful': False})
     else:
         return render(request, 'login.html')
-
 
 @login_required
 @user_passes_test(lambda user: user.is_superuser, login_url='login')
@@ -66,14 +65,6 @@ def delete_photo(request, photo_id):
         return redirect('photos')  # Redirigir a la página de fotos
     return render(request, 'delete_photo.html', {'photo': photo})
 
-def index(request):
-    return render(request, 'index.html')
-
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from .forms import MessageForm
-from .models import Message
-
 @login_required(login_url='login')
 def messages(request):
     if request.method == 'POST':
@@ -82,12 +73,12 @@ def messages(request):
             message = form.save(commit=False)
             message.sender = request.user
             message.save()
-            return redirect('messages')
+            return redirect('messages')  
     else:
         form = MessageForm()
 
-    received_messages = Message.objects.filter(receiver=request.user.pk)
-    sent_messages = Message.objects.filter(sender=request.user.pk)
+    received_messages = Message.objects.filter(receiver=request.user)
+    sent_messages = Message.objects.filter(sender=request.user)
 
     context = {
         'form': form,
@@ -100,5 +91,15 @@ def messages(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required(login_url='login')  
+def portfolio(request):
+    return render(request, 'portfolio.html')
 
+def index(request):
+    data_from_backend = VerMas.objects.all()
 
+    context = {
+        'data': data_from_backend,
+    }
+
+    return render(request, 'index.html', context)
